@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.tabs {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+}
+.tabs li {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.tabs li.active {
+    background-color: #007BFF;
+    color: white;
+}
+.content {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 10px;
+}
+.slider {
+    margin-top: 20px;
+}
+.pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 10px 0;
+}
+.pagination li {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.radio-group {
+    margin: 20px 0;
+    display: inline;
+}
+
+.radio-group label {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.selected-value {
+    margin-top: 20px;
+}
+
+.param-header {
+    padding: 0;
+    margin-right: 20px;
+    display: inline;
+}
+
+.slider-value-2dig {
+    width: 1rem;
+    display: inline-block;
+    text-align: center;
+}
+
+.slider-value-3dig {
+    width: 1.5rem;
+    display: inline-block;
+    text-align: center;
+}
+
+#file-input {
+    /* display: flex;
+    justify-content: flex-start; */
+}
+
+#reload-button {
+    /* display: flex; */
+    /* justify-content: flex-end; */
+}
+

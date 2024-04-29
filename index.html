@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Insights</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script async src="https://docs.opencv.org/master/opencv.js" onload="console.log('Opencvjs Ready')" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Drawing Insights</h1>
+    <div x-data="app">
+        <ul class="tabs">
+            <template x-for="tab in tabs" :key="tab.name">
+                <li :class="{ 'active': activeTab === tab.name }" @click="changeTab(tab.name)" x-text="tab.disp"></li>
+            </template>
+        </ul>
+        <div class="button-area">
+            <input id="file-input" type="file" accept="image/*" @change="fileChosen">
+            <button id="reload-button" @click="renderCanvas(activeTab)" x-show="['tile'].includes(activeTab)" stype="">Reload</button>
+            <button id="download-button" @click="downloadCanvas(activeTab)">Download</button>
+        </div>
+        <div class="param-area">
+            <div class="gridParams" x-show="['tile', 'grid'].includes(activeTab)">
+                <h3 class="param-header">Grid</h3>
+                <label>cols: <span x-text="params.tile.cols" class="slider-value-2dig"></span> 
+                    <input type="range" x-model="params.tile.cols" min="1" max="10" class="slider" @change="renderCanvas(activeTab)">
+                </label>
+                <label>rows: <span x-text="params.tile.rows" class="slider-value-2dig"></span>
+                    <input type="range" x-model="params.tile.rows" min="1" max="10" class="slider" @change="renderCanvas(activeTab)">
+                </label>
+            </div>
+            <div class="blurParams" x-show="['tile', 'blur'].includes(activeTab)">
+                <h3 class="param-header">Blur</h3>
+                <label>ksize: <span x-text="params.blur.ksize" class="slider-value-2dig"></span> 
+                    <input type="range" x-model="params.blur.ksize" min="1" max="31" step=2 class="slider" @change="renderCanvas(activeTab)">
+                </label>
+                <label>sigma: <span x-text="params.blur.sigma" class="slider-value-2dig"></span> 
+                    <input type="range" x-model="params.blur.sigma" min="0" max="10" class="slider" @change="renderCanvas(activeTab)">
+                </label>
+            </div>
+            <div class="quantizeParams" x-show="['tile', 'quantize'].includes(activeTab)">
+                <h3 class="param-header">Quantize</h3>
+                <label>level: <span x-text="params.quantize.level" class="slider-value-2dig"></span> 
+                    <input type="range" x-model="params.quantize.level" min="2" max="20" class="slider" @change="renderCanvas(activeTab)">
+                </label>
+                <label class="toggle-switch"> Color: 
+                    <input type="checkbox" x-model="params.quantize.color" @change="renderCanvas(activeTab)">
+                </label>
+                <div class="radio-group" x-show="['tile', 'quantize'].includes(activeTab)">
+                    <template x-for="mode in params.quantize.mode" @change="renderCanvas(activeTab)">
+                        <label>
+                            <input type="radio" x-model="params.quantize.currentMode" :value="mode" >
+                            <span x-text="mode"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+            <div class="edgeParams" x-show="['tile', 'edge'].includes(activeTab)">
+                <h3 class="param-header">Edge</h3>
+                <label>ksize: <span x-text="params.edge.ksize" class="slider-value-2dig"></span>
+                    <input type="range" x-model="params.edge.ksize" min="1" max="31" step=2 class="slider" @change="renderCanvas(activeTab)">
+                </label>
+                <label>thresshold1: <span x-text="params.edge.threshold1" class="slider-value-3dig"></span>
+                    <input type="range" x-model="params.edge.threshold1" min="0" max="300" class="slider" @change="renderCanvas(activeTab)">
+                </label>
+                <label>thresshold2: <span x-text="params.edge.threshold2" class="slider-value-3dig"></span>
+                    <input type="range" x-model="params.edge.threshold2" min="0" max="300" class="slider" @change="renderCanvas(activeTab)">
+                </label>
+            </div>
+        </div>
+        <div class="content">
+            <template x-for="tab in tabs" :key="tab.name">
+                <canvas :id="tab.canvasId" width="100" height="100" x-show="activeTab === tab.name"></canvas>
+            </template>
+        </div>
+    </div>
+    <script src="grid.js" type="text/javascript"></script>
+    <script src="image-converter.js" type="text/javascript"></script>
+    <script src="app.js" type="text/javascript"></script>
+</body>
+</html>
